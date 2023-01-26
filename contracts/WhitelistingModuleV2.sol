@@ -20,6 +20,7 @@ contract WhitelistingModuleV2 {
 
     struct Allowance{
         uint16 offset;
+        uint16 dataLength;
         bytes[] args;
     }
 
@@ -96,21 +97,25 @@ contract WhitelistingModuleV2 {
         bytes memory functionIdentifier = data[0:4];
         require(allowances[to][functionIdentifier].length > 0, "function not found");
 
+        bool dataLengthFound = false;
         for (uint256 i = 0; i < allowances[to][functionIdentifier].length; i++) {
+            if (data.length == allowances[to][functionIdentifier][i].dataLength){
+                dataLengthFound = true;
+                uint argLength = allowances[to][functionIdentifier][i].args[0].length;
+                uint offset = allowances[to][functionIdentifier][i].offset;
+                bytes memory argument = data[offset : offset + argLength];
 
-            uint argLength = allowances[to][functionIdentifier][i].args[0].length;
-            uint offset = allowances[to][functionIdentifier][i].offset;
-            bytes memory argument = data[offset : offset + argLength];
-            
-            bool found = false;
-            for (uint256 j = 0; j < allowances[to][functionIdentifier][i].args.length; j++) {
-                if (keccak256(allowances[to][functionIdentifier][i].args[j]) == keccak256(argument)){
-                    found = true;
-                    break;
+                bool found = false;
+                for (uint256 j = 0; j < allowances[to][functionIdentifier][i].args.length; j++) {
+                    if (keccak256(allowances[to][functionIdentifier][i].args[j]) == keccak256(argument)){
+                        found = true;
+                        break;
+                    }
                 }
+                require(found, "invalid argument");
             }
-            require(found, "invalid argument");
         }
+        require(dataLengthFound, "data length massmatch");
 
         success = GnosisSafe(target).execTransactionFromModule(
             to,
