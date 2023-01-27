@@ -57,14 +57,15 @@ contract WhitelistingModuleV2 {
 
     /// @dev be careful, doesn't remove allowances! 
     function removeAllowance(address removable) external onlyOwner {
+        require(isWhite[removable], "adress not found");
         isWhite[removable] = false;
         for (uint i = 0; i < whitelistedAddresses.length - 1; i++){
             if(whitelistedAddresses[i] == removable){
                 whitelistedAddresses[i] = whitelistedAddresses[whitelistedAddresses.length - 1];
-                whitelistedAddresses.pop();
                 break;
             }  
-        }      
+        } 
+        whitelistedAddresses.pop();     
     }
 
     function addNewOperator(address delegate) external onlyOwner {
@@ -79,10 +80,10 @@ contract WhitelistingModuleV2 {
         for (uint i = 0; i < whitelistedOperators.length - 1; i++){
             if(whitelistedOperators[i] == removable){
                 whitelistedOperators[i] = whitelistedOperators[whitelistedOperators.length - 1];
-                whitelistedOperators.pop();
                 break;
             }  
-        }         
+        } 
+        whitelistedOperators.pop();        
     }
 
     function execTransaction(

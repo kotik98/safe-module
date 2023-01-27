@@ -22,55 +22,56 @@ const V3_NFT_POS_MANAGER_ADDRESS = "0xC36442b4a4522E871399CD717aBDD847Ab11FE88";
 
 // polygon
 // const web3Provider = new ethers.providers.JsonRpcProvider('https://polygon-mainnet.g.alchemy.com/v2/6aCuWP8Oxcd-4jvmNYLh-WervViwIeJq')
-// const chainId = 137
-// const Token0 = new Token(
-//   chainId,
-//   '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270',
-//   18,
-//   'WMATIC',
-//   'Wrapped Matic'
-// );
-// const Token1 = new Token(
-//     chainId,
-//     '0xc2132D05D31c914a87C6611C10748AEb04B58e8F',
-//     6,
-//     'USDT',
-//     'Tether USD'
-// );
-// const tokenForAAVE = new Token(
-//     chainId,
-//     '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
-//     6,
-//     'USDC',
-//     'USD Coin'
-// );
-// const poolAddress = '0x9B08288C3Be4F62bbf8d1C20Ac9C5e6f9467d8B7'
-// const url = 'https://gasstation-mainnet.matic.network/v2';
-
-// mainnet fork
 const web3Provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545/')
-
-const chainId = 1
+const chainId = 137
 const Token0 = new Token(
-    chainId,
-    '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
-    18,
-    'WETH',
-    'Wrapped Ether'
+  chainId,
+  '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270',
+  18,
+  'WMATIC',
+  'Wrapped Matic'
 );
 const Token1 = new Token(
     chainId,
-    '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+    '0xc2132D05D31c914a87C6611C10748AEb04B58e8F',
     6,
     'USDT',
     'Tether USD'
 );
-const poolAddress = '0x4e68Ccd3E89f51C3074ca5072bbAC773960dFa36'
+const tokenForAAVE = new Token(
+    chainId,
+    '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
+    6,
+    'USDC',
+    'USD Coin'
+);
+const poolAddress = '0x9B08288C3Be4F62bbf8d1C20Ac9C5e6f9467d8B7'
+const url = 'https://gasstation-mainnet.matic.network/v2';
+
+// mainnet fork
+// const web3Provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545/')
+
+// const chainId = 1
+// const Token0 = new Token(
+//     chainId,
+//     '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+//     18,
+//     'WETH',
+//     'Wrapped Ether'
+// );
+// const Token1 = new Token(
+//     chainId,
+//     '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+//     6,
+//     'USDT',
+//     'Tether USD'
+// );
+// const poolAddress = '0x4e68Ccd3E89f51C3074ca5072bbAC773960dFa36'
 
 const ERC20ABI = require('./abi/ERC20ABI.json')
 const token0Contract = new ethers.Contract(Token0.address, ERC20ABI, web3Provider)
 const token1Contract = new ethers.Contract(Token1.address, ERC20ABI, web3Provider)
-// const tokenForAAVEContract = new ethers.Contract(tokenForAAVE.address, ERC20ABI, web3Provider)
+const tokenForAAVEContract = new ethers.Contract(tokenForAAVE.address, ERC20ABI, web3Provider)
 
 const router = new AlphaRouter({ chainId: chainId, provider: web3Provider})
 
@@ -331,10 +332,10 @@ module.exports = {
     V3_SWAP_ROUTER_ADDRESS,
     Token0,
     Token1,
-    // tokenForAAVE,
+    tokenForAAVE,
     token0Contract,
     token1Contract,
-    // tokenForAAVEContract,
+    tokenForAAVEContract,
     web3Provider,
     chainId,
     ethers,
