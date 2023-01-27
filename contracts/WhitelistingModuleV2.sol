@@ -57,7 +57,7 @@ contract WhitelistingModuleV2 {
 
     /// @dev be careful, doesn't remove allowances! 
     function removeAllowance(address removable) external onlyOwner {
-        require(isWhite[removable], "adress not found");
+        require(isWhite[removable], "address not found");
         isWhite[removable] = false;
         for (uint i = 0; i < whitelistedAddresses.length - 1; i++){
             if(whitelistedAddresses[i] == removable){
@@ -116,7 +116,7 @@ contract WhitelistingModuleV2 {
                 require(found, "invalid argument");
             }
         }
-        require(dataLengthFound, "data length massmatch");
+        require(dataLengthFound, "data length missmatch");
 
         success = GnosisSafe(target).execTransactionFromModule(
             to,

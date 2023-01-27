@@ -1,7 +1,7 @@
 const { NonfungiblePositionManager } = require("@uniswap/v3-sdk");
 const { Fraction } = require("@uniswap/sdk");
 const { Position } = require("@uniswap/v3-sdk");
-const { AlphaRouter } = require('@uniswap/smart-order-router');
+const { AlphaRouter, SwapType } = require('@uniswap/smart-order-router');
 const { Token, CurrencyAmount, Percent, TradeType } = require('@uniswap/sdk-core');
 const { ethers, BigNumber } = require('ethers');
 const { Pool } = require('@uniswap/v3-sdk');
@@ -204,11 +204,11 @@ async function swapAndAdd(width, token0Amount, token1Amount, WALLET_ADDRESS, WAL
 
 }
 
-// async function getGasPrice(url){
-//     return await fetch(url)
-//         .then(response => response.json())
-//         .then(json => (BigNumber.from(Math.round(json.standard.maxFee * (10 ** 9)))))
-// }
+async function getGasPrice(url){
+    return await fetch(url)
+        .then(response => response.json())
+        .then(json => (BigNumber.from(Math.round(json.standard.maxFee * (10 ** 9)))))
+}
 
 async function removeAndBurn(WALLET_ADDRESS, WALLET_SECRET){
     const wallet = new ethers.Wallet(WALLET_SECRET)
@@ -261,7 +261,9 @@ async function removeAndBurn(WALLET_ADDRESS, WALLET_SECRET){
             gasPrice:web3Provider.getGasPrice(),
             gasLimit: BigNumber.from('100000')
         }
-    )
+    ).then(function(transaction) {
+        return transaction.wait();
+    })
 
     const transaction = {
         data: calldata,
@@ -306,6 +308,7 @@ async function swap(inputToken, outputToken, amount, WALLET_ADDRESS, WALLET_SECR
         outputToken,
         TradeType.EXACT_INPUT,
         {
+            type: SwapType.SWAP_ROUTER_02,
             recipient: WALLET_ADDRESS,
             slippageTolerance: new Percent(5, 100),
             deadline: Math.floor(Date.now()/1000 + 240)
@@ -343,7 +346,7 @@ module.exports = {
     getPoolState,
     swapAndAdd,
     swap,
-    // getGasPrice,
+    getGasPrice,
     removeAndBurn,
     getBalance,
     approveMax

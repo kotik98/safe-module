@@ -3,7 +3,7 @@ import "@nomicfoundation/hardhat-toolbox";
 import "@nomiclabs/hardhat-ethers";
 require("dotenv").config();
 
-const { ALCHEMY_POLYGON, WALLET_SECRET1 } = process.env;
+const { ALCHEMY_POLYGON, WALLET_SECRET } = process.env;
 
 const config: HardhatUserConfig = {
   solidity: "0.8.17",
@@ -13,7 +13,7 @@ const config: HardhatUserConfig = {
     },
     matic: {
       url: ALCHEMY_POLYGON,
-      accounts: [`0x${WALLET_SECRET1}`]
+      accounts: [`0x${WALLET_SECRET}`]
     }
   },
   etherscan: {
