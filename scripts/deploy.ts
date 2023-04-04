@@ -1,10 +1,15 @@
 import hre from "hardhat"
+require("dotenv").config();
+
+const { SAFE_ADDRESS } = process.env;
 
 async function main() {
   const WhitelistingModule = await hre.ethers.getContractFactory("WhitelistingModuleV2");
-  const module = await WhitelistingModule.deploy('0xd317963bAA33957C1675a8aDED7b1C0273be90DB'); 
-  await module.deployed();  
-  console.log("Module deployed to address: ", module.address);
+  if (SAFE_ADDRESS){
+    const module = await WhitelistingModule.deploy(SAFE_ADDRESS); 
+    await module.deployed();  
+    console.log("Module deployed to address: ", module.address);
+  }
 }
 
 // We recommend this pattern to be able to use async/await everywhere

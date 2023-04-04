@@ -252,31 +252,31 @@ async function removeAndBurn(WALLET_ADDRESS, WALLET_SECRET){
         },
     })
     // console.log({calldata, value})
+    return tokenId, calldata
 
+    // await NftPosManagerContract.connect(connectedWallet).approve(
+    //     V3_NFT_POS_MANAGER_ADDRESS,
+    //     tokenId,
+    //     {
+    //         gasPrice:web3Provider.getGasPrice(),
+    //         gasLimit: BigNumber.from('100000')
+    //     }
+    // ).then(function(transaction) {
+    //     return transaction.wait();
+    // })
 
-    await NftPosManagerContract.connect(connectedWallet).approve(
-        V3_NFT_POS_MANAGER_ADDRESS,
-        tokenId,
-        {
-            gasPrice:web3Provider.getGasPrice(),
-            gasLimit: BigNumber.from('100000')
-        }
-    ).then(function(transaction) {
-        return transaction.wait();
-    })
-
-    const transaction = {
-        data: calldata,
-        to: V3_NFT_POS_MANAGER_ADDRESS,
-        value: BigNumber.from(value),
-        from: WALLET_ADDRESS,
-        gasPrice: await web3Provider.getGasPrice(),
-        gasLimit: BigNumber.from('500000')
-    };
-    // console.log(transaction)
-    return await connectedWallet.sendTransaction(transaction).then(function(transaction) {
-        return transaction.wait();
-    })
+    // const transaction = {
+    //     data: calldata,
+    //     to: V3_NFT_POS_MANAGER_ADDRESS,
+    //     value: BigNumber.from(value),
+    //     from: WALLET_ADDRESS,
+    //     gasPrice: await web3Provider.getGasPrice(),
+    //     gasLimit: BigNumber.from('500000')
+    // };
+    // // console.log(transaction)
+    // return await connectedWallet.sendTransaction(transaction).then(function(transaction) {
+    //     return transaction.wait();
+    // })
 
 }
 
