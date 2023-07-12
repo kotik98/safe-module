@@ -1,13 +1,3 @@
-# Sample Hardhat Project
+# Safety module for gnosis safe wallet
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
-
-Try running some of the following tasks:
-
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
-```
+This project contains module for gnosis safe wallet which allows to whitelist transactions (contract addresses, functions and arguments) and make these transactions without any additional signatures.
